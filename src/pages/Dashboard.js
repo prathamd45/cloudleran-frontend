@@ -11,7 +11,7 @@ const Dashboard = () => {
     const [dragActive, setDragActive] = useState(false);
     const [toast, setToast] = useState({ show: false, message: '' });
 
-    const API = "http://localhost:5001/api";
+    const API = process.env.REACT_APP_API_URL;
 
     const showToast = (msg) => {
         setToast({ show: true, message: msg });

@@ -10,16 +10,21 @@ const Login = () => {
 
     const { name, email, password } = formData;
 
+    // 🔥 IMPORTANT: Use deployed backend URL
+    const API = process.env.REACT_APP_API_URL;
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const endpoint = isSignup ? '/api/signup' : '/api/login';
+
+        const endpoint = isSignup ? '/signup' : '/login';
+
         try {
             const res = await axios.post(
-                `http://localhost:5001${endpoint}`,
+                `${API}${endpoint}`,
                 formData,
                 {
                     headers: {
@@ -39,6 +44,7 @@ const Login = () => {
                     setIsSignup(false);
                 }
             }
+
         } catch (err) {
             console.error("Auth Error:", err.response?.data?.error || err.message);
         }
@@ -57,15 +63,43 @@ const Login = () => {
 
             <div className="right-section">
                 <div className="login-card glass">
-                    <h2 className="form-title">{isSignup ? 'Create Account' : 'Welcome Back'}</h2>
-                    <p className="subtitle">{isSignup ? 'Join our workspace' : 'Login to your workspace'}</p>
+                    <h2 className="form-title">
+                        {isSignup ? 'Create Account' : 'Welcome Back'}
+                    </h2>
+
+                    <p className="subtitle">
+                        {isSignup ? 'Join our workspace' : 'Login to your workspace'}
+                    </p>
                     
                     <form onSubmit={handleSubmit} className="auth-form">
                         {isSignup && (
-                            <input type="text" name="name" placeholder="Full Name" value={name} onChange={handleChange} required />
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Full Name"
+                                value={name}
+                                onChange={handleChange}
+                                required
+                            />
                         )}
-                        <input type="email" name="email" placeholder="Login ID (Email)" value={email} onChange={handleChange} required />
-                        <input type="password" name="password" placeholder="Password" value={password} onChange={handleChange} required />
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Login ID (Email)"
+                            value={email}
+                            onChange={handleChange}
+                            required
+                        />
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={handleChange}
+                            required
+                        />
                         
                         <button type="submit" className="login-btn">
                             {isSignup ? 'Sign Up' : 'Login'}
